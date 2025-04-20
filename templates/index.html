@@ -7,161 +7,194 @@
 <style>
     .main-container {
         max-width: 1200px;
-        margin: 2rem auto;
-        padding: 0 1.5rem;
-    }
-    .form-container {
-        background: white;
+        margin: 0 auto;
         padding: 2rem;
-        border-radius: 15px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 1.5rem;
     }
-    .result-container {
+    .analysis-card {
         background: white;
-        border-radius: 15px;
-        padding: 2rem;
-        margin-top: 1.5rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .severity-badge {
-        padding: 0.5rem 1.2rem;
-        border-radius: 25px;
-        font-weight: 500;
-        display: inline-block;
-        margin-left: 1rem;
-        font-size: 1rem;
-    }
-    .severity-low { background-color: #28a745; color: white; }
-    .severity-moderate { background-color: #ffc107; color: black; }
-    .severity-high { background-color: #dc3545; color: white; }
-    .progress {
-        height: 0.5rem;
-        border-radius: 1rem;
-        background-color: #e9ecef;
-        margin: 0.8rem auto;
-        width: 300px;
-    }
-    .recommendation-btn {
-        background: white;
-        border: 2px solid #e9ecef;
         border-radius: 20px;
-        padding: 1.2rem;
-        width: 160px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+    }
+    .page-title {
+        font-size: 2rem;
+        color: #2d3436;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 600;
+    }
+    .symptoms-input {
+        width: 100%;
+        padding: 1rem 1.2rem;
+        font-size: 1rem;
+        border: 1px solid #e9ecef;
+        border-radius: 12px;
+        margin-bottom: 0.5rem;
+        color: #2d3436;
+        background: #f8f9fa;
+    }
+    .symptoms-input::placeholder {
+        color: #8395a7;
+    }
+    .symptoms-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    }
+    .analyze-btn {
+        background: #007bff;
+        color: white;
+        padding: 0.8rem 2rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        border: none;
         cursor: pointer;
         transition: all 0.3s ease;
-        display: inline-block;
-        text-align: center;
-        margin: 0.8rem;
+        display: block;
+        margin: 0 auto;
     }
-    .recommendation-btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    .analyze-btn:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+    }
+    .result-section {
+        margin-top: 2rem;
+    }
+    .predicted-condition {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 1.3rem;
+    }
+    .condition-label {
+        color: #2d3436;
+        margin-right: 0.5rem;
+    }
+    .condition-name {
+        color: #007bff;
+        font-weight: 600;
+    }
+    .confidence-badge {
+        display: inline-block;
+        background: #f1f4f7;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        color: #2d3436;
+        margin-left: 1rem;
+    }
+    .severity-container {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .severity-label {
+        font-size: 1.1rem;
+        color: #2d3436;
+        margin-right: 0.5rem;
+    }
+    .severity-badge {
+        display: inline-block;
+        background: #dc3545;
+        color: white;
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+    .severity-progress {
+        width: 200px;
+        height: 4px;
+        background: #dc3545;
+        margin: 1rem auto;
+        border-radius: 2px;
+    }
+    .description-section {
+        background: #e3f8fa;
+        padding: 1.2rem;
+        border-radius: 10px;
+        margin: 1.5rem 0 2rem;
+    }
+    .description-label {
+        color: #2d3436;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    .description-text {
+        color: #2d3436;
+        line-height: 1.6;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+    .recommendations {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin: 0 0 2rem;
+    }
+    .recommendation-card {
+        background: white;
+        text-align: center;
+        cursor: pointer;
+        padding: 1.5rem 1rem;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border: 1px solid #e9ecef;
+    }
+    .recommendation-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        border-color: #007bff;
     }
     .recommendation-icon {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto 0.8rem;
+    }
+    .recommendation-icon.precautions {
+        background: #ff6b81;
+    }
+    .recommendation-icon.medications {
+        background: #ff7f50;
+    }
+    .recommendation-icon.workouts {
+        background: #45aaf2;
+    }
+    .recommendation-icon.diet {
+        background: #ffd32a;
+    }
+    .recommendation-icon i {
+        color: white;
         font-size: 1.5rem;
     }
-    .icon-precautions { background-color: #FF69B4; }
-    .icon-medications { background-color: #FF6B6B; }
-    .icon-workouts { background-color: #4ECDC4; }
-    .icon-diet { background-color: #FFD93D; }
-    .modal-content {
-        border-radius: 15px;
-        border: none;
-    }
-    .modal-header {
-        background-color: #f8f9fa;
-        border-radius: 15px 15px 0 0;
-        padding: 1.2rem;
-    }
-    .modal-body {
-        padding: 1.5rem;
-    }
-    .recommendation-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    .recommendation-list li {
-        padding: 0.8rem 0;
-        border-bottom: 1px solid #eee;
-        font-size: 1rem;
-    }
-    .recommendation-list li:last-child {
-        border-bottom: none;
-    }
-    .description-box {
-        background: #f8f9fa;
-        border-radius: 15px;
-        padding: 1.5rem;
-        margin: 1.5rem 0;
-        font-size: 1.1rem;
-        line-height: 1.6;
-    }
-    .recommendations-container {
-        margin: 2rem 0;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    .btn-label {
-        font-size: 1rem;
-        margin-top: 0.5rem;
-        font-weight: 500;
-    }
-    .result-header {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
+    .recommendation-label {
         color: #2d3436;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
     }
-    .alert {
-        font-size: 0.95rem;
+    .disclaimer {
+        background: #e3f2fd;
         padding: 1rem;
-        margin-top: 1rem;
         border-radius: 10px;
+        font-size: 0.9rem;
+        color: #0056b3;
+        margin-top: 2rem;
     }
-    .form-control {
-        padding: 1rem;
-        font-size: 1.1rem;
-        border-radius: 10px;
-        border: 2px solid #e9ecef;
-    }
-    .form-control:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-    }
-    .btn-primary {
-        padding: 0.8rem 2rem;
-        font-size: 1.1rem;
-        border-radius: 10px;
-        font-weight: 500;
-    }
-    .description-label {
-        font-size: 1.1rem;
-        color: #6c757d;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
+    .disclaimer-label {
+        font-weight: 600;
+        margin-right: 0.5rem;
     }
     @media (max-width: 768px) {
-        .recommendation-btn {
-            width: 140px;
+        .main-container {
             padding: 1rem;
         }
-        .recommendation-icon {
-            width: 50px;
-            height: 50px;
-            font-size: 1.2rem;
-        }
-        .form-container, .result-container {
-            padding: 1.5rem;
+        
+        .recommendations {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
     .navbar-brand {
@@ -313,107 +346,322 @@
     .chat-messages::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+
+    /* Common Health Conditions Styles */
+    .conditions-section {
+        margin-top: 3rem;
+        padding: 2rem 0;
+        background: #f8f9fa;
+        border-radius: 15px;
+    }
+
+    .conditions-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #2d3436;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+
+    .conditions-subtitle {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: #636e72;
+        font-size: 1.1rem;
+    }
+
+    .conditions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        padding: 0 1.5rem;
+    }
+
+    .condition-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+    .condition-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .condition-icon {
+        width: 50px;
+        height: 50px;
+        background: #e3f2fd;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    .condition-icon i {
+        font-size: 24px;
+        color: #007bff;
+    }
+
+    .condition-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2d3436;
+        margin-bottom: 0.5rem;
+    }
+
+    .condition-description {
+        color: #636e72;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .common-symptoms {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .common-symptoms span {
+        display: inline-block;
+        background: #f1f8ff;
+        color: #007bff;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        margin: 0.2rem;
+    }
+
+    @media (max-width: 768px) {
+        .conditions-grid {
+            grid-template-columns: 1fr;
+            padding: 0 1rem;
+        }
+    }
+
+    .input-note {
+        color: #636e72;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .example-symptoms {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 0.8rem;
+        margin: 1rem 0 1.5rem;
+    }
+
+    .example-symptom {
+        background: #f1f8ff;
+        color: #007bff;
+        padding: 0.7rem 1rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 1px solid #cce5ff;
+    }
+
+    .example-symptom:hover {
+        background: #007bff;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 3px 8px rgba(0,123,255,0.2);
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <!-- Main Content -->
 <div class="main-container">
-    <!-- Input Form -->
-    <div class="form-container">
-        <h2 class="text-center mb-4">Analyze Your Symptoms</h2>
+    <div class="analysis-card">
+        <h1 class="page-title">Analyze Your Symptoms</h1>
+        
         <form action="/predict" method="post">
-            <div class="form-group">
-                <input type="text" class="form-control" 
-                       id="symptoms" name="symptoms" 
-                       placeholder="Enter 2-10 symptoms separated by commas (e.g., headache, fatigue, nausea)">
+            <input type="text" 
+                   class="symptoms-input" 
+                   name="symptoms" 
+                   placeholder="Enter symptoms separated by commas (e.g., headache, fatigue, nausea)"
+                   autocomplete="off">
+            
+            <div class="input-note">* Enter minimum two symptoms for accurate analysis</div>
+            
+            <p class="input-note">Click to add common symptoms:</p>
+            <div class="example-symptoms">
+                <span class="example-symptom" onclick="addSymptom('fever')">fever</span>
+                <span class="example-symptom" onclick="addSymptom('headache')">headache</span>
+                <span class="example-symptom" onclick="addSymptom('cough')">cough</span>
+                <span class="example-symptom" onclick="addSymptom('fatigue')">fatigue</span>
+                <span class="example-symptom" onclick="addSymptom('nausea')">nausea</span>
+                <span class="example-symptom" onclick="addSymptom('dizziness')">dizziness</span>
             </div>
 
-            {% if error %}
-            <div class="alert alert-danger mt-3">{{ error }}</div>
-            {% endif %}
-
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-4">
-                    Analyze Symptoms
-                </button>
-            </div>
+            <button type="submit" class="analyze-btn">
+                Analyze Symptoms
+            </button>
         </form>
     </div>
 
     {% if predicted_disease %}
-    <!-- Results Section -->
-    <div class="result-container">
-        <div class="text-center mb-4">
-            <h2 class="result-header">Predicted Condition: 
-                <span class="text-primary">{{ predicted_disease }}</span>
-            </h2>
+    <div class="analysis-card">
+        <div class="predicted-condition">
+            <span class="condition-label">Predicted Condition:</span>
+            <span class="condition-name">{{ predicted_disease }}</span>
         </div>
 
-        <!-- Severity Level -->
-        <div class="text-center mb-4">
-            <h3>Severity Level: 
-                <span class="severity-badge {% if severity_level == 'Low' %}severity-low{% elif severity_level == 'Moderate' %}severity-moderate{% else %}severity-high{% endif %}">
-                    {{ severity_level }}
-                </span>
-            </h3>
-            <div class="progress">
-                <div class="progress-bar {% if severity_level == 'Low' %}bg-success{% elif severity_level == 'Moderate' %}bg-warning{% else %}bg-danger{% endif %}" 
-                     role="progressbar" 
-                     style="width: {{ (severity_score / 10) * 100 }}%">
+        <div class="severity-container">
+            <span class="severity-label">Severity Level:</span>
+            <span class="severity-badge">{{ severity_level }}</span>
+            <div class="severity-progress"></div>
+        </div>
+
+        <div class="description-section">
+            <div class="description-label">Description:</div>
+            <p class="description-text">{{ description | safe }}</p>
+        </div>
+
+        <div class="recommendations">
+            <div class="recommendation-card" data-bs-toggle="modal" data-bs-target="#precautionsModal">
+                <div class="recommendation-icon precautions">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
+                <div class="recommendation-label">Precautions</div>
+            </div>
+
+            <div class="recommendation-card" data-bs-toggle="modal" data-bs-target="#medicationsModal">
+                <div class="recommendation-icon medications">
+                    <i class="fas fa-pills"></i>
+                </div>
+                <div class="recommendation-label">Medications</div>
+            </div>
+
+            <div class="recommendation-card" data-bs-toggle="modal" data-bs-target="#workoutsModal">
+                <div class="recommendation-icon workouts">
+                    <i class="fas fa-running"></i>
+                </div>
+                <div class="recommendation-label">Workouts</div>
+            </div>
+
+            <div class="recommendation-card" data-bs-toggle="modal" data-bs-target="#dietModal">
+                <div class="recommendation-icon diet">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="recommendation-label">Diet</div>
             </div>
         </div>
 
-        <!-- Description -->
-        <div class="description-box">
-            <div class="description-label">Description:</div>
-            <p class="mb-0">{{ description | safe }}</p>
-        </div>
-
-        <!-- Recommendations -->
-        <div class="recommendations-container">
-            <!-- Precautions Button -->
-            <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#precautionsModal">
-                <div class="recommendation-icon icon-precautions">
-                    <i class="fas fa-shield-alt text-white"></i>
-                </div>
-                <div class="btn-label">Precautions</div>
-            </button>
-
-            <!-- Medications Button -->
-            <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#medicationsModal">
-                <div class="recommendation-icon icon-medications">
-                    <i class="fas fa-pills text-white"></i>
-                </div>
-                <div class="btn-label">Medications</div>
-            </button>
-
-            <!-- Workouts Button -->
-            <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#workoutsModal">
-                <div class="recommendation-icon icon-workouts">
-                    <i class="fas fa-running text-white"></i>
-                </div>
-                <div class="btn-label">Workouts</div>
-            </button>
-
-            <!-- Diet Button -->
-            <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#dietModal">
-                <div class="recommendation-icon icon-diet">
-                    <i class="fas fa-utensils text-white"></i>
-                </div>
-                <div class="btn-label">Diet</div>
-            </button>
-        </div>
-
-        <!-- Disclaimer -->
-        <div class="alert alert-info mb-0">
-            <strong>Disclaimer:</strong> This is an AI-powered tool for informational purposes only. 
-            Always consult with a healthcare professional for proper diagnosis and treatment.
+        <div class="disclaimer">
+            <span class="disclaimer-label">Disclaimer:</span>
+            This is an AI-powered tool for informational purposes only. Always consult with a healthcare professional for proper diagnosis and treatment.
         </div>
     </div>
     {% endif %}
 </div>
+
+<!-- After the main form and results container -->
+{% if not predicted_disease %}
+<div class="conditions-section">
+    <h2 class="conditions-title">Common Health Conditions</h2>
+    <p class="conditions-subtitle">Learn about frequently encountered health conditions and their symptoms</p>
+    
+    <div class="conditions-grid">
+        <!-- Fever Card -->
+        <div class="condition-card">
+            <div class="condition-icon">
+                <i class="fas fa-thermometer-half"></i>
+            </div>
+            <h3 class="condition-name">Fever</h3>
+            <p class="condition-description">A temporary increase in body temperature, often due to an infection.</p>
+            <div class="common-symptoms">
+                <span>High temperature</span>
+                <span>Chills</span>
+                <span>Sweating</span>
+                <span>Headache</span>
+            </div>
+        </div>
+
+        <!-- Common Cold Card -->
+        <div class="condition-card">
+            <div class="condition-icon">
+                <i class="fas fa-head-side-cough"></i>
+            </div>
+            <h3 class="condition-name">Common Cold</h3>
+            <p class="condition-description">A viral infection of your nose and throat (upper respiratory tract).</p>
+            <div class="common-symptoms">
+                <span>Runny nose</span>
+                <span>Sore throat</span>
+                <span>Cough</span>
+                <span>Congestion</span>
+            </div>
+    </div>
+
+        <!-- Migraine Card -->
+        <div class="condition-card">
+            <div class="condition-icon">
+                <i class="fas fa-brain"></i>
+                    </div>
+            <h3 class="condition-name">Migraine</h3>
+            <p class="condition-description">A headache disorder characterized by recurrent headaches that are moderate to severe.</p>
+            <div class="common-symptoms">
+                <span>Intense headache</span>
+                <span>Nausea</span>
+                <span>Light sensitivity</span>
+                <span>Vision changes</span>
+            </div>
+        </div>
+
+        <!-- Allergies Card -->
+        <div class="condition-card">
+            <div class="condition-icon">
+                <i class="fas fa-wind"></i>
+            </div>
+            <h3 class="condition-name">Allergies</h3>
+            <p class="condition-description">An immune system response to substances that are usually harmless.</p>
+            <div class="common-symptoms">
+                <span>Sneezing</span>
+                <span>Itchy eyes</span>
+                <span>Runny nose</span>
+                <span>Rash</span>
+    </div>
+</div>
+
+        <!-- Gastroenteritis Card -->
+        <div class="condition-card">
+            <div class="condition-icon">
+                <i class="fas fa-stomach"></i>
+    </div>
+            <h3 class="condition-name">Gastroenteritis</h3>
+            <p class="condition-description">An intestinal infection marked by diarrhea, cramps, nausea, vomiting, and fever.</p>
+            <div class="common-symptoms">
+                <span>Diarrhea</span>
+                <span>Nausea</span>
+                <span>Stomach pain</span>
+                <span>Vomiting</span>
+    </div>
+</div>
+
+        <!-- Hypertension Card -->
+        <div class="condition-card">
+            <div class="condition-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h3 class="condition-name">Hypertension</h3>
+            <p class="condition-description">High blood pressure that can lead to severe health complications.</p>
+            <div class="common-symptoms">
+                <span>Headaches</span>
+                <span>Shortness of breath</span>
+                <span>Dizziness</span>
+                <span>Chest pain</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <!-- Modals -->
 {% if predicted_disease %}
@@ -439,7 +687,7 @@
     </div>
 </div>
 
-<!-- Medications Modal -->
+    <!-- Medications Modal -->
 <div class="modal fade" id="medicationsModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -461,29 +709,29 @@
     </div>
 </div>
 
-<!-- Workouts Modal -->
+    <!-- Workouts Modal -->
 <div class="modal fade" id="workoutsModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-content">
+                <div class="modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-running me-2"></i>
                     Workouts
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
+                </div>
+                <div class="modal-body">
                 <ul class="recommendation-list">
                     {% for workout_rec in workout %}
                     <li>{{ workout_rec }}</li>
-                    {% endfor %}
-                </ul>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Diet Modal -->
+    <!-- Diet Modal -->
 <div class="modal fade" id="dietModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -509,16 +757,16 @@
 <!-- Chatbot Icon -->
 <div class="chatbot-icon" onclick="toggleChat()">
     <i class="fas fa-comment-dots"></i>
-</div>
+                </div>
 
 <!-- Chat Container -->
 <div class="chat-container" id="chatContainer">
     <div class="chat-header">
         <span>MediAI Assistant</span>
-    </div>
+            </div>
     <div class="chat-messages" id="chatMessages">
         <!-- Messages will be added here -->
-    </div>
+                </div>
     <div class="chat-input">
         <input type="text" id="userInput" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendMessage()">
         <button onclick="sendMessage()">Send</button>
@@ -528,21 +776,42 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
+    <script>
 let userSymptoms = localStorage.getItem('userSymptoms') || '';
 let predictedDisease = localStorage.getItem('predictedDisease') || '';
 
 // On page load, set the symptoms if they exist
 window.onload = function() {
-    const symptomsInput = document.getElementById('symptoms');
+    const symptomsInput = document.querySelector('input[name="symptoms"]');
     if (symptomsInput && userSymptoms) {
         symptomsInput.value = userSymptoms;
     }
+    
+    // Store predicted disease when received
+    {% if predicted_disease %}
+        localStorage.setItem('predictedDisease', '{{ predicted_disease }}');
+        predictedDisease = '{{ predicted_disease }}';
+    {% endif %}
+}
+
+function addSymptom(symptom) {
+    const input = document.querySelector('input[name="symptoms"]');
+    const currentSymptoms = input.value.split(',').map(s => s.trim()).filter(s => s);
+    
+    if (!currentSymptoms.includes(symptom)) {
+        if (currentSymptoms.length > 0) {
+            input.value = currentSymptoms.join(', ') + ', ' + symptom;
+        } else {
+            input.value = symptom;
+        }
+    }
+    
+    input.focus();
 }
 
 // Store symptoms when form is submitted
 document.querySelector('form')?.addEventListener('submit', function(e) {
-    const symptomsInput = document.getElementById('symptoms');
+    const symptomsInput = document.querySelector('input[name="symptoms"]');
     if (symptomsInput) {
         localStorage.setItem('userSymptoms', symptomsInput.value);
     }
@@ -551,12 +820,25 @@ document.querySelector('form')?.addEventListener('submit', function(e) {
 function toggleChat() {
     const chatContainer = document.getElementById('chatContainer');
     chatContainer.style.display = chatContainer.style.display === 'none' ? 'flex' : 'none';
+    
+    // Show welcome message when chat is opened for the first time
+    if (chatContainer.style.display === 'flex' && !chatContainer.dataset.initialized) {
+        chatContainer.dataset.initialized = 'true';
+        const welcomeMessage = "👋 Hi! I'm your MediAI Assistant. I'm here to help answer your questions about your symptoms and diagnosis. How can I help you today?";
+        addMessageToChat('bot', welcomeMessage);
+        
+        // Add a follow-up suggestion message
+        setTimeout(() => {
+            const suggestionMessage = "You can ask me about your symptoms, treatment recommendations, or any concerns you have.";
+            addMessageToChat('bot', suggestionMessage);
+        }, 1000);
+    }
 }
 
 async function sendMessage() {
     const userInput = document.getElementById('userInput');
     const message = userInput.value.trim();
-    if (!message) return;
+            if (!message) return;
 
     // Add user message to chat
     addMessageToChat('user', message);
@@ -565,8 +847,8 @@ async function sendMessage() {
     try {
         // Send message to backend with context
         const response = await fetch('/chat', {
-            method: 'POST',
-            headers: {
+                method: 'POST',
+                headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -588,17 +870,11 @@ async function sendMessage() {
 
 function addMessageToChat(type, message) {
     const chatMessages = document.getElementById('chatMessages');
-    const messageDiv = document.createElement('div');
+            const messageDiv = document.createElement('div');
     messageDiv.className = `chat-message ${type}-message`;
     messageDiv.textContent = message;
-    chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-// Store predicted disease when received
-{% if predicted_disease %}
-    localStorage.setItem('predictedDisease', '{{ predicted_disease }}');
-    predictedDisease = '{{ predicted_disease }}';
-{% endif %}
-</script>
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
 {% endblock %}
