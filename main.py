@@ -333,5 +333,51 @@ def blog():
     """Render the blog page"""
     return render_template('blog.html')
 
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        data = request.get_json()
+        user_message = data.get('message', '')
+        symptoms = data.get('symptoms', '')
+        disease = data.get('disease', '')
+
+        # Create context for the chatbot
+        context = f"""You are a friendly medical assistant AI. The user has reported: {symptoms} as symptoms
+        and was diagnosed with: {disease}
+        
+        Provide a brief, friendly response to their question. Keep in mind:
+        1. Keep responses short and simple (2-3 sentences max)
+        2. Use friendly, conversational language
+        3. Avoid medical jargon unless necessary
+        4. Be empathetic and supportive
+        5. For complex questions, gently suggest consulting a healthcare professional
+        
+        User question: {user_message}
+        
+        Remember: Keep your response brief, friendly, and easy to understand."""
+
+        # Make API call to ChatGPT
+        try:
+            completion = client.chat.completions.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "You are a friendly medical assistant. Keep responses brief (2-3 sentences), simple, and supportive."},
+                    {"role": "user", "content": context}
+                ],
+                max_tokens=150,  # Reduced token limit for shorter responses
+                temperature=0.7
+            )
+            
+            response = completion.choices[0].message.content.strip()
+            return jsonify({"response": response})
+            
+        except Exception as e:
+            logger.error(f"OpenAI API error: {str(e)}")
+            return jsonify({"response": "I'm sorry, I couldn't process your request right now. Please try again."}), 500
+
+    except Exception as e:
+        logger.error(f"Chat endpoint error: {str(e)}")
+        return jsonify({"error": "Something went wrong. Please try again."}), 500
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

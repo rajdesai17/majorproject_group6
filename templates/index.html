@@ -1,414 +1,604 @@
-<!--index.html-->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Medical Symptom Analyzer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        .navbar {
-            background-color: white !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 0.8rem 1rem;
-        }
-        .navbar-brand img {
-            height: 45px;
-        }
-        .main-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-        .form-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-        }
-        .result-container {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            margin-top: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .severity-badge {
-            padding: 0.5rem 1.2rem;
-            border-radius: 25px;
-            font-weight: 500;
-            display: inline-block;
-            margin-left: 1rem;
-            font-size: 1rem;
-        }
-        .severity-low { background-color: #28a745; color: white; }
-        .severity-moderate { background-color: #ffc107; color: black; }
-        .severity-high { background-color: #dc3545; color: white; }
-        .progress {
-            height: 0.5rem;
-            border-radius: 1rem;
-            background-color: #e9ecef;
-            margin: 0.8rem auto;
-            width: 300px;
-        }
+{% extends "base.html" %}
+
+{% block title %}MediAI - Symptom Analysis{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+    .main-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+    }
+    .form-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 1.5rem;
+    }
+    .result-container {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .severity-badge {
+        padding: 0.5rem 1.2rem;
+        border-radius: 25px;
+        font-weight: 500;
+        display: inline-block;
+        margin-left: 1rem;
+        font-size: 1rem;
+    }
+    .severity-low { background-color: #28a745; color: white; }
+    .severity-moderate { background-color: #ffc107; color: black; }
+    .severity-high { background-color: #dc3545; color: white; }
+    .progress {
+        height: 0.5rem;
+        border-radius: 1rem;
+        background-color: #e9ecef;
+        margin: 0.8rem auto;
+        width: 300px;
+    }
+    .recommendation-btn {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 20px;
+        padding: 1.2rem;
+        width: 160px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-block;
+        text-align: center;
+        margin: 0.8rem;
+    }
+    .recommendation-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .recommendation-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 0.8rem;
+        font-size: 1.5rem;
+    }
+    .icon-precautions { background-color: #FF69B4; }
+    .icon-medications { background-color: #FF6B6B; }
+    .icon-workouts { background-color: #4ECDC4; }
+    .icon-diet { background-color: #FFD93D; }
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+    }
+    .modal-header {
+        background-color: #f8f9fa;
+        border-radius: 15px 15px 0 0;
+        padding: 1.2rem;
+    }
+    .modal-body {
+        padding: 1.5rem;
+    }
+    .recommendation-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .recommendation-list li {
+        padding: 0.8rem 0;
+        border-bottom: 1px solid #eee;
+        font-size: 1rem;
+    }
+    .recommendation-list li:last-child {
+        border-bottom: none;
+    }
+    .description-box {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+    .recommendations-container {
+        margin: 2rem 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .btn-label {
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        font-weight: 500;
+    }
+    .result-header {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: #2d3436;
+    }
+    .alert {
+        font-size: 0.95rem;
+        padding: 1rem;
+        margin-top: 1rem;
+        border-radius: 10px;
+    }
+    .form-control {
+        padding: 1rem;
+        font-size: 1.1rem;
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+    }
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+    .btn-primary {
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 10px;
+        font-weight: 500;
+    }
+    .description-label {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    @media (max-width: 768px) {
         .recommendation-btn {
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 20px;
-            padding: 1.2rem;
-            width: 160px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-            text-align: center;
-            margin: 0.8rem;
-        }
-        .recommendation-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 140px;
+            padding: 1rem;
         }
         .recommendation-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 0.8rem;
-            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
         }
-        .icon-precautions { background-color: #FF69B4; }
-        .icon-medications { background-color: #FF6B6B; }
-        .icon-workouts { background-color: #4ECDC4; }
-        .icon-diet { background-color: #FFD93D; }
-        .modal-content {
-            border-radius: 15px;
-            border: none;
-        }
-        .modal-header {
-            background-color: #f8f9fa;
-            border-radius: 15px 15px 0 0;
-            padding: 1.2rem;
-        }
-        .modal-body {
+        .form-container, .result-container {
             padding: 1.5rem;
         }
-        .recommendation-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .recommendation-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #eee;
-            font-size: 1rem;
-        }
-        .recommendation-list li:last-child {
-            border-bottom: none;
-        }
-        .description-box {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-        .recommendations-container {
-            margin: 2rem 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .btn-label {
-            font-size: 1rem;
-            margin-top: 0.5rem;
-            font-weight: 500;
-        }
-        .result-header {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #2d3436;
-        }
-        .alert {
-            font-size: 0.95rem;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 10px;
-        }
-        .form-control {
-            padding: 1rem;
-            font-size: 1.1rem;
-            border-radius: 10px;
-            border: 2px solid #e9ecef;
-        }
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        .btn-primary {
-            padding: 0.8rem 2rem;
-            font-size: 1.1rem;
-            border-radius: 10px;
-            font-weight: 500;
-        }
-        .description-label {
-            font-size: 1.1rem;
-            color: #6c757d;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        @media (max-width: 768px) {
-            .recommendation-btn {
-                width: 140px;
-                padding: 1rem;
-            }
-            .recommendation-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-            .form-container, .result-container {
-                padding: 1.5rem;
-            }
-        }
-        .navbar-brand {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #2d3436;
-            text-decoration: none;
-        }
-        .navbar-brand span {
-            color: #007bff;
-        }
-    </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="/">Medi<span>AI</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/analyze">Analyze</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    }
+    .navbar-brand {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #2d3436;
+        text-decoration: none;
+    }
+    .navbar-brand span {
+        color: #007bff;
+    }
 
-    <!-- Main Content -->
-    <div class="main-container">
-        <!-- Input Form -->
-        <div class="form-container">
-            <h2 class="text-center mb-4">Analyze Your Symptoms</h2>
-            <form action="/predict" method="post">
-                <div class="form-group">
-                    <input type="text" class="form-control" 
-                           id="symptoms" name="symptoms" 
-                           placeholder="Enter 2-10 symptoms separated by commas (e.g., headache, fatigue, nausea)">
-                </div>
+    /* Chatbot Styles */
+    .chatbot-icon {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: #007bff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
 
-                {% if error %}
-                <div class="alert alert-danger mt-3">{{ error }}</div>
-                {% endif %}
+    .chatbot-icon:hover {
+        transform: scale(1.1);
+    }
 
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary mt-4">
-                        Analyze Symptoms
-                    </button>
-                </div>
-            </form>
-        </div>
+    .chatbot-icon i {
+        color: white;
+        font-size: 24px;
+    }
 
-        {% if predicted_disease %}
-        <!-- Results Section -->
-        <div class="result-container">
-            <div class="text-center mb-4">
-                <h2 class="result-header">Predicted Condition: 
-                    <span class="text-primary">{{ predicted_disease }}</span>
-                </h2>
-            </div>
+    .chat-container {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        width: 350px;
+        height: 500px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        display: none;
+        flex-direction: column;
+        z-index: 999;
+    }
 
-            <!-- Severity Level -->
-            <div class="text-center mb-4">
-                <h3>Severity Level: 
-                    <span class="severity-badge {% if severity_level == 'Low' %}severity-low{% elif severity_level == 'Moderate' %}severity-moderate{% else %}severity-high{% endif %}">
-                        {{ severity_level }}
-                    </span>
-                </h3>
-                <div class="progress">
-                    <div class="progress-bar {% if severity_level == 'Low' %}bg-success{% elif severity_level == 'Moderate' %}bg-warning{% else %}bg-danger{% endif %}" 
-                         role="progressbar" 
-                         style="width: {{ (severity_score / 10) * 100 }}%">
-                    </div>
-                </div>
-            </div>
+    .chat-header {
+        padding: 15px 20px;
+        background: #007bff;
+        color: white;
+        border-radius: 15px 15px 0 0;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
 
-            <!-- Description -->
-            <div class="description-box">
-                <div class="description-label">Description:</div>
-                <p class="mb-0">{{ description | safe }}</p>
+    .chat-header i {
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background: #f8f9fa;
+    }
+
+    .chat-message {
+        margin-bottom: 15px;
+        max-width: 80%;
+        padding: 10px 15px;
+        border-radius: 15px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .user-message {
+        background: #007bff;
+        color: white;
+        margin-left: auto;
+        border-radius: 15px 15px 0 15px;
+    }
+
+    .bot-message {
+        background: white;
+        color: #2d3436;
+        margin-right: auto;
+        border-radius: 15px 15px 15px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .chat-input {
+        padding: 15px;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 10px;
+    }
+
+    .chat-input input {
+        flex: 1;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        outline: none;
+        font-size: 14px;
+    }
+
+    .chat-input input:focus {
+        border-color: #007bff;
+    }
+
+    .chat-input button {
+        padding: 8px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.3s ease;
+    }
+
+    .chat-input button:hover {
+        background: #0056b3;
+    }
+
+    /* Scrollbar Styling */
+    .chat-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .chat-messages::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div class="main-container">
+    <!-- Input Form -->
+    <div class="form-container">
+        <h2 class="text-center mb-4">Analyze Your Symptoms</h2>
+        <form action="/predict" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" 
+                       id="symptoms" name="symptoms" 
+                       placeholder="Enter 2-10 symptoms separated by commas (e.g., headache, fatigue, nausea)">
             </div>
 
-            <!-- Recommendations -->
-            <div class="recommendations-container">
-                <!-- Precautions Button -->
-                <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#precautionsModal">
-                    <div class="recommendation-icon icon-precautions">
-                        <i class="fas fa-shield-alt text-white"></i>
-                    </div>
-                    <div class="btn-label">Precautions</div>
-                </button>
+            {% if error %}
+            <div class="alert alert-danger mt-3">{{ error }}</div>
+            {% endif %}
 
-                <!-- Medications Button -->
-                <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#medicationsModal">
-                    <div class="recommendation-icon icon-medications">
-                        <i class="fas fa-pills text-white"></i>
-                    </div>
-                    <div class="btn-label">Medications</div>
-                </button>
-
-                <!-- Workouts Button -->
-                <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#workoutsModal">
-                    <div class="recommendation-icon icon-workouts">
-                        <i class="fas fa-running text-white"></i>
-                    </div>
-                    <div class="btn-label">Workouts</div>
-                </button>
-
-                <!-- Diet Button -->
-                <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#dietModal">
-                    <div class="recommendation-icon icon-diet">
-                        <i class="fas fa-utensils text-white"></i>
-                    </div>
-                    <div class="btn-label">Diet</div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-4">
+                    Analyze Symptoms
                 </button>
             </div>
-
-            <!-- Disclaimer -->
-            <div class="alert alert-info mb-0">
-                <strong>Disclaimer:</strong> This is an AI-powered tool for informational purposes only. 
-                Always consult with a healthcare professional for proper diagnosis and treatment.
-            </div>
-        </div>
-        {% endif %}
+        </form>
     </div>
 
-    <!-- Modals -->
     {% if predicted_disease %}
-    <!-- Precautions Modal -->
-    <div class="modal fade" id="precautionsModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-shield-alt me-2"></i>
-                        Precautions
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="recommendation-list">
-                        {% for precaution in precautions %}
-                        <li>{{ precaution }}</li>
-                        {% endfor %}
-                    </ul>
+    <!-- Results Section -->
+    <div class="result-container">
+        <div class="text-center mb-4">
+            <h2 class="result-header">Predicted Condition: 
+                <span class="text-primary">{{ predicted_disease }}</span>
+            </h2>
+        </div>
+
+        <!-- Severity Level -->
+        <div class="text-center mb-4">
+            <h3>Severity Level: 
+                <span class="severity-badge {% if severity_level == 'Low' %}severity-low{% elif severity_level == 'Moderate' %}severity-moderate{% else %}severity-high{% endif %}">
+                    {{ severity_level }}
+                </span>
+            </h3>
+            <div class="progress">
+                <div class="progress-bar {% if severity_level == 'Low' %}bg-success{% elif severity_level == 'Moderate' %}bg-warning{% else %}bg-danger{% endif %}" 
+                     role="progressbar" 
+                     style="width: {{ (severity_score / 10) * 100 }}%">
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Medications Modal -->
-    <div class="modal fade" id="medicationsModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-pills me-2"></i>
-                        Medications
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="recommendation-list">
-                        {% for medication in medications %}
-                        <li>{{ medication }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
+        <!-- Description -->
+        <div class="description-box">
+            <div class="description-label">Description:</div>
+            <p class="mb-0">{{ description | safe }}</p>
         </div>
-    </div>
 
-    <!-- Workouts Modal -->
-    <div class="modal fade" id="workoutsModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-running me-2"></i>
-                        Workouts
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <!-- Recommendations -->
+        <div class="recommendations-container">
+            <!-- Precautions Button -->
+            <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#precautionsModal">
+                <div class="recommendation-icon icon-precautions">
+                    <i class="fas fa-shield-alt text-white"></i>
                 </div>
-                <div class="modal-body">
-                    <ul class="recommendation-list">
-                        {% for workout_rec in workout %}
-                        <li>{{ workout_rec }}</li>
-                        {% endfor %}
-                    </ul>
+                <div class="btn-label">Precautions</div>
+            </button>
+
+            <!-- Medications Button -->
+            <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#medicationsModal">
+                <div class="recommendation-icon icon-medications">
+                    <i class="fas fa-pills text-white"></i>
                 </div>
-            </div>
+                <div class="btn-label">Medications</div>
+            </button>
+
+            <!-- Workouts Button -->
+            <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#workoutsModal">
+                <div class="recommendation-icon icon-workouts">
+                    <i class="fas fa-running text-white"></i>
+                </div>
+                <div class="btn-label">Workouts</div>
+            </button>
+
+            <!-- Diet Button -->
+            <button class="recommendation-btn" data-bs-toggle="modal" data-bs-target="#dietModal">
+                <div class="recommendation-icon icon-diet">
+                    <i class="fas fa-utensils text-white"></i>
+                </div>
+                <div class="btn-label">Diet</div>
+            </button>
         </div>
-    </div>
 
-    <!-- Diet Modal -->
-    <div class="modal fade" id="dietModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="fas fa-utensils me-2"></i>
-                        Diet Recommendations
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="recommendation-list">
-                        {% for diet_rec in diet %}
-                        <li>{{ diet_rec }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
+        <!-- Disclaimer -->
+        <div class="alert alert-info mb-0">
+            <strong>Disclaimer:</strong> This is an AI-powered tool for informational purposes only. 
+            Always consult with a healthcare professional for proper diagnosis and treatment.
         </div>
     </div>
     {% endif %}
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<!-- Modals -->
+{% if predicted_disease %}
+<!-- Precautions Modal -->
+<div class="modal fade" id="precautionsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    Precautions
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="recommendation-list">
+                    {% for precaution in precautions %}
+                    <li>{{ precaution }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Medications Modal -->
+<div class="modal fade" id="medicationsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-pills me-2"></i>
+                    Medications
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="recommendation-list">
+                    {% for medication in medications %}
+                    <li>{{ medication }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Workouts Modal -->
+<div class="modal fade" id="workoutsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-running me-2"></i>
+                    Workouts
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="recommendation-list">
+                    {% for workout_rec in workout %}
+                    <li>{{ workout_rec }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Diet Modal -->
+<div class="modal fade" id="dietModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-utensils me-2"></i>
+                    Diet Recommendations
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="recommendation-list">
+                    {% for diet_rec in diet %}
+                    <li>{{ diet_rec }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Chatbot Icon -->
+<div class="chatbot-icon" onclick="toggleChat()">
+    <i class="fas fa-comment-dots"></i>
+</div>
+
+<!-- Chat Container -->
+<div class="chat-container" id="chatContainer">
+    <div class="chat-header">
+        <span>MediAI Assistant</span>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <!-- Messages will be added here -->
+    </div>
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendMessage()">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let userSymptoms = localStorage.getItem('userSymptoms') || '';
+let predictedDisease = localStorage.getItem('predictedDisease') || '';
+
+// On page load, set the symptoms if they exist
+window.onload = function() {
+    const symptomsInput = document.getElementById('symptoms');
+    if (symptomsInput && userSymptoms) {
+        symptomsInput.value = userSymptoms;
+    }
+}
+
+// Store symptoms when form is submitted
+document.querySelector('form')?.addEventListener('submit', function(e) {
+    const symptomsInput = document.getElementById('symptoms');
+    if (symptomsInput) {
+        localStorage.setItem('userSymptoms', symptomsInput.value);
+    }
+});
+
+function toggleChat() {
+    const chatContainer = document.getElementById('chatContainer');
+    chatContainer.style.display = chatContainer.style.display === 'none' ? 'flex' : 'none';
+}
+
+async function sendMessage() {
+    const userInput = document.getElementById('userInput');
+    const message = userInput.value.trim();
+    if (!message) return;
+
+    // Add user message to chat
+    addMessageToChat('user', message);
+    userInput.value = '';
+
+    try {
+        // Send message to backend with context
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: message,
+                symptoms: userSymptoms,
+                disease: predictedDisease
+            })
+        });
+
+        const data = await response.json();
+        
+        // Add bot response to chat
+        addMessageToChat('bot', data.response);
+    } catch (error) {
+        console.error('Error:', error);
+        addMessageToChat('bot', 'Sorry, I encountered an error. Please try again.');
+    }
+}
+
+function addMessageToChat(type, message) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${type}-message`;
+    messageDiv.textContent = message;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Store predicted disease when received
+{% if predicted_disease %}
+    localStorage.setItem('predictedDisease', '{{ predicted_disease }}');
+    predictedDisease = '{{ predicted_disease }}';
+{% endif %}
+</script>
+{% endblock %}

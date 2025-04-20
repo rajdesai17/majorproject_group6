@@ -1,98 +1,82 @@
-<!-- <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-        }
+{% extends "base.html" %}
 
-        .container {
-            background: #1e1e1e;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
+{% block title %}About MediAI{% endblock %}
 
-        h3 {
-            color: #4a90e2;
-            margin-top: 30px;
-        }
+{% block content %}
+<div class="about-section">
+    <div class="container">
+        <!-- Platform Overview -->
+        <div class="section-block">
+            <h1 class="section-title">About MediAI</h1>
+            <p class="section-description">
+                MediAI is an advanced medical symptom analysis platform that combines artificial intelligence with comprehensive medical data to provide quick, reliable health insights. Our system is designed to help you understand your symptoms and make informed decisions about your health.
+            </p>
+        </div>
 
-        p {
-            color: #cccccc;
-            line-height: 1.8;
-        }
+        <!-- Platform Features -->
+        <div class="section-block">
+            <h2 class="feature-title">Platform Features</h2>
+            <div class="features-container">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Advanced machine learning algorithms analyze your symptoms with high accuracy</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Data Security</h3>
+                    <p>Your health data is protected with enterprise-grade security measures</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Comprehensive Care</h3>
+                    <p>Get detailed recommendations for medications, diet, and lifestyle changes</p>
+                </div>
+            </div>
+        </div>
 
-        .chatbot-icon {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: #4a90e2;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            transition: transform 0.3s;
-        }
+        <!-- How It Works -->
+        <div class="section-block">
+            <h2 class="feature-title">How It Works</h2>
+            <div class="process-container">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Input Symptoms</h3>
+                    <p>Enter your symptoms in our user-friendly interface</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>AI Analysis</h3>
+                    <p>Our AI system analyzes your symptoms using advanced algorithms</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Get Results</h3>
+                    <p>Receive detailed analysis and personalized recommendations</p>
+                </div>
+            </div>
+        </div>
 
-        .chatbot-icon:hover {
-            transform: scale(1.1);
-        }
-
-        .chatbot-icon::before {
-            content: '🤖';
-            font-size: 30px;
-        }
-    </style>
-  </head>
-  <body>
-    <div class="container my-4 mt-4">
-
-
-     <h3> About Us</h3>
-
-<p>Welcome to Medical Health center, where health meets technology for a brighter, healthier future.
-</p>
-<h3>Our Vision</h3>
-
-<p>We envision a world where access to healthcare information is not just a luxury but a fundamental right. Our journey began with a simple yet powerful idea: to empower individuals with the knowledge and tools they need to take control of their health.
-</p>
-<h3>Who We Are
-</h3>
-<p>We are a passionate team of healthcare professionals, data scientists, and technology enthusiasts who share a common goal: to make healthcare accessible, understandable, and personalized for you. With years of experience in both healthcare and cutting-edge technology, we've come together to create this platform as a testament to our commitment to your well-being.
-</p>
-<h3>Our Mission</h3>
-
-<p>At this website, our mission is to provide you with a seamless and intuitive platform that leverages the power of artificial intelligence and machine learning. We want to assist you in identifying potential health concerns based on your reported symptoms, all while offering a wealth of educational resources to enhance your health literacy.
-</p>
-<h3>How We Do It</h3>
-
-<p>Our platform utilizes a robust machine learning model trained on a vast dataset of symptoms and diseases. By inputting your symptoms, our system generates accurate predictions about potential illnesses, allowing you to make informed decisions about your health.
-</p>
-<h3>Your Well-being, Our Priority</h3>
-
-<p>Your health is our top priority. We understand that navigating the complexities of healthcare can be daunting. That's why we've gone the extra mile to provide not only accurate predictions but also comprehensive information about each disease. You'll find descriptions, recommended precautions, medications, dietary advice, and workout tips to support your journey to better health.
-</p>
-<h3>Join Us on this Journey
-</h3>
-<p>We invite you to explore our platform, engage with our educational content, and take control of your health journey. Together, we can revolutionize the way individuals access and understand healthcare information.
-</p>
-<p>Thank you for choosing [Your Website Name] as your trusted health companion. We are here to empower you with knowledge, support, and a brighter, healthier future.
-</p>
-
+        <!-- Medical Disclaimer -->
+        <div class="section-block">
+            <div class="disclaimer-block">
+                <div class="disclaimer-content">
+                    <h3>Medical Disclaimer</h3>
+                    <p>MediAI is designed to provide general information and is not a substitute for professional medical advice. Always consult with a qualified healthcare provider for proper diagnosis and treatment.</p>
+                    <p>The recommendations provided are based on general medical knowledge and should not be considered as definitive medical advice.</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="chatbot-icon"></div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  </body>
-</html> -->
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+{% endblock %}
