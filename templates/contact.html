@@ -1,344 +1,427 @@
 {% extends "base.html" %}
 
-{% block title %}MediAI - Contact{% endblock %}
+{% block title %}MediAI - Find Medical Help{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+    .contact-container {
+        min-height: calc(100vh - 80px);
+        background: linear-gradient(135deg, #f5f7fa 0%, #e3f2fd 100%);
+        padding: 4rem 0;
+    }
+
+    .contact-hero {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 0 1rem;
+    }
+
+    .contact-hero h1 {
+        font-size: 3rem;
+        color: #1976d2;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        animation: fadeInDown 0.6s ease;
+    }
+
+    .contact-hero p {
+        font-size: 1.2rem;
+        color: #37474f;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.8;
+        animation: fadeInUp 0.8s ease;
+    }
+
+    .city-selector-container {
+        max-width: 600px;
+        margin: 0 auto 3rem;
+        padding: 0 1rem;
+    }
+
+    #citySelector {
+        width: 100%;
+        padding: 1.2rem;
+        font-size: 1.1rem;
+        border: 2px solid #e3f2fd;
+        border-radius: 15px;
+        background: white;
+        color: #37474f;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231976d2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1.5em;
+    }
+
+    #citySelector:focus {
+        border-color: #1976d2;
+        box-shadow: 0 4px 20px rgba(25, 118, 210, 0.1);
+        outline: none;
+    }
+
+    .hospitals-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        padding: 1rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .city-title {
+        font-size: 2.5rem;
+        color: #1976d2;
+        text-align: center;
+        margin-bottom: 3rem;
+        font-weight: 600;
+        animation: fadeInUp 0.6s ease;
+    }
+
+    .hospital-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .hospital-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .hospital-icon {
+        width: 70px;
+        height: 70px;
+        background: #e3f2fd;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+    }
+
+    .hospital-icon i {
+        font-size: 2rem;
+        color: #1976d2;
+    }
+
+    .hospital-card h3 {
+        font-size: 1.4rem;
+        color: #1976d2;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        line-height: 1.4;
+    }
+
+    .hospital-card p {
+        color: #546e7a;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+        font-size: 1rem;
+    }
+
+    .hospital-services {
+        margin-top: auto;
+        padding-top: 1rem;
+    }
+
+    .hospital-services .badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        margin: 0.3rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        background: #e3f2fd;
+        color: #1976d2;
+        transition: all 0.3s ease;
+    }
+
+    .hospital-services .badge:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(25, 118, 210, 0.1);
+    }
+
+    .badge.bg-primary { background: #1976d2 !important; color: white !important; }
+    .badge.bg-success { background: #2e7d32 !important; color: white !important; }
+    .badge.bg-info { background: #0288d1 !important; color: white !important; }
+    .badge.bg-warning { background: #f57c00 !important; color: white !important; }
+    .badge.bg-danger { background: #d32f2f !important; color: white !important; }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .contact-hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .contact-hero p {
+            font-size: 1.1rem;
+        }
+
+        .city-title {
+            font-size: 2rem;
+        }
+
+        .hospitals-grid {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+        }
+
+        .hospital-card {
+            padding: 1.5rem;
+        }
+    }
+
+    .map-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: #4CAF50;
+        color: white;
+        padding: 0.8rem 1.2rem;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 1rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .map-button:hover {
+        background: #43A047;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        color: white;
+        text-decoration: none;
+    }
+
+    .map-button i {
+        font-size: 1.1rem;
+    }
+
+    .hospital-card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hospital-info {
+        flex-grow: 1;
+    }
+
+    .hospital-actions {
+        margin-top: auto;
+        padding-top: 1rem;
+        border-top: 1px solid #e3f2fd;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<!-- Main Content -->
-<div class="container my-5">
-    <h1 class="text-center mb-5" style="color: #4a90e2;">Find Local Medical Help</h1>
-    
+<div class="contact-container">
+    <!-- Hero Section -->
+    <div class="contact-hero">
+        <h1>Find Local Medical Help</h1>
+        <p>Connect with trusted healthcare providers in your area. Select your city to discover nearby hospitals and medical facilities.</p>
+    </div>
+
     <!-- City Selector -->
-    <div class="row justify-content-center mb-5">
-        <div class="col-md-6">
-            <select class="form-select form-select-lg" id="citySelector" onchange="showHospitals(this.value)">
-                <option selected disabled>Select City</option>
-                <option value="kankavli">Kankavli</option>
-                <option value="sawantwadi">Sawantwadi</option>
-            </select>
-        </div>
+    <div class="city-selector-container">
+        <select class="form-select" id="citySelector" onchange="showHospitals(this.value)">
+            <option selected disabled>Select Your City</option>
+            <option value="kankavli">Kankavli</option>
+            <option value="sawantwadi">Sawantwadi</option>
+        </select>
     </div>
 
     <!-- Kankavli Hospitals -->
-    <div class="row" id="kankavli-hospitals" style="display: none;">
-        <h2 class="text-center mb-4">Hospitals in Kankavli</h2>
-
-        <!-- District Hospital Kankavli -->
-        <div class="col-md-4 mb-4">
+    <div id="kankavli-hospitals" style="display: none;">
+        <h2 class="city-title">Hospitals in Kankavli</h2>
+        <div class="hospitals-grid">
+            <!-- District Hospital Kankavli -->
             <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>District Hospital Kankavli</h3>
-                <p>Location: Main Road, Kankavli</p>
-                <p>Contact: +91 2367 232462</p>
-                <p>Emergency: 108</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">24/7 Emergency</span>
-                    <span class="badge bg-info">ICU</span>
+                <div class="hospital-info">
+                    <div class="hospital-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <h3>District Hospital Kankavli</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Main Road, Kankavli, Maharashtra</p>
+                    <p><i class="fas fa-phone"></i> +91 2367 232462</p>
+                    <p><i class="fas fa-ambulance"></i> Emergency: 108</p>
+                    <div class="hospital-services">
+                        <span class="badge bg-primary">24/7 Emergency</span>
+                        <span class="badge bg-info">ICU</span>
+                    </div>
+                </div>
+                <div class="hospital-actions">
+                    <a href="https://www.google.com/maps/search/?api=1&query=District+Hospital+Kankavli+Maharashtra" target="_blank" class="map-button">
+                        <i class="fas fa-map-marked-alt"></i> View on Map
+                    </a>
                 </div>
             </div>
-        </div>
 
-        <!-- Joshi Hospital -->
-        <div class="col-md-4 mb-4">
+            <!-- Remaining Kankavli hospital cards... -->
+            {% set kankavli_hospitals = [
+                {
+                    'name': 'Joshi Hospital',
+                    'location': 'Station Road, Kankavli, Maharashtra',
+                    'contact': '+91 2367 232777',
+                    'services': [('bg-success', 'OPD'), ('bg-warning', 'Pharmacy')],
+                    'map_query': 'Joshi+Hospital+Station+Road+Kankavli+Maharashtra'
+                },
+                {
+                    'name': 'Sanjivani Hospital',
+                    'location': 'College Road, Shivajinagar, Near Laxmi-Vishnu Hall, Kankavli, Maharashtra',
+                    'contact': '02367 231 390',
+                    'services': [('bg-primary', '24/7 Emergency'), ('bg-info', 'Surgery')],
+                    'map_query': 'Sanjivani+Hospital+College+Road+Shivajinagar+Kankavli+Maharashtra'
+                },
+                {
+                    'name': 'Navare Hospital',
+                    'location': 'Mumbai-Goa Road, Bijalee Nagar, Kankavli, Maharashtra',
+                    'contact': '02367 232 283',
+                    'services': [('bg-success', 'OPD'), ('bg-warning', 'Pharmacy')],
+                    'map_query': 'Navare+Hospital+Mumbai+Goa+Road+Kankavli+Maharashtra'
+                },
+                {
+                    'name': 'Nagvekar Hospital',
+                    'location': 'Kankavli College Road, Shivajinagar, Kankavli, Maharashtra',
+                    'contact': '094224 34505',
+                    'services': [('bg-primary', 'Maternity'), ('bg-info', 'Gynecology')],
+                    'map_query': 'Nagvekar+Hospital+College+Road+Shivajinagar+Kankavli+Maharashtra'
+                }
+            ] %}
+            {% for hospital in kankavli_hospitals %}
             <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Joshi Hospital</h3>
-                <p>Location: Station Road, Kankavli</p>
-                <p>Contact: +91 2367 232777</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">OPD</span>
-                    <span class="badge bg-warning">Pharmacy</span>
+                <div class="hospital-info">
+                    <div class="hospital-icon">
+                        <i class="fas fa-hospital-user"></i>
+                    </div>
+                    <h3>{{ hospital.name }}</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> {{ hospital.location }}</p>
+                    <p><i class="fas fa-phone"></i> {{ hospital.contact }}</p>
+                    <div class="hospital-services">
+                        {% for class, service in hospital.services %}
+                            <span class="badge {{ class }}">{{ service }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="hospital-actions">
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ hospital.map_query }}" target="_blank" class="map-button">
+                        <i class="fas fa-map-marked-alt"></i> View on Map
+                    </a>
                 </div>
             </div>
-        </div>
-
-        <!-- Sanjivani Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Sanjivani Hospital</h3>
-                <p>Location: College Road, Shivajinagar, Near Laxmi-Vishnu Hall, Kankavli</p>
-                <p>Contact: 02367 231 390</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">24/7 Emergency</span>
-                    <span class="badge bg-info">Surgery</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Navare Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Navare Hospital</h3>
-                <p>Location: Mumbai-Goa Road, Bijalee Nagar, Kankavli</p>
-                <p>Contact: 02367 232 283</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">OPD</span>
-                    <span class="badge bg-warning">Pharmacy</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Nagvekar Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Nagvekar Hospital</h3>
-                <p>Location: Kankavli College Road, Shivajinagar, Kankavli</p>
-                <p>Contact: 094224 34505</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">Maternity</span>
-                    <span class="badge bg-info">Gynecology</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mhaskar Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Mhaskar Hospital</h3>
-                <p>Location: Nardave Road, Nath Pai Nagar, Kankavli</p>
-                <p>Contact: 094238 81058</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">General Medicine</span>
-                    <span class="badge bg-warning">Diagnostics</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Aabu Tayshete Memorial Hospital & S. S. Stone -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Aabu Tayshete Memorial Hospital & S. S. Stone</h3>
-                <p>Location: BKG Road, Shivajinagar, Kankavli</p>
-                <p>Contact: 098225 83735</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">Orthopedics</span>
-                    <span class="badge bg-info">Urology</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tathastu Physiotherapy Centre -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Tathastu Physiotherapy Centre</h3>
-                <p>Location: Mangaldham Apt. Shop no. 1 & 2, Behind Prant office, College Road, Vidyanagar, Kankavli</p>
-                <p>Contact: 082753 15050</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">Physiotherapy</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sub District Hospital, Kankavli -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Sub District Hospital, Kankavli</h3>
-                <p>Location: Nardave Road, Kankavli</p>
-                <p>Contact: +91 2367 232 058</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">24/7 Emergency</span>
-                    <span class="badge bg-info">General Surgery</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dr. Birmole's Gurukrupa Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Dr. Birmole's Gurukrupa Hospital</h3>
-                <p>Location: Bidyewadi Road, Kalmath Bazar, Kankavli</p>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
     <!-- Sawantwadi Hospitals -->
-    <div class="row" id="sawantwadi-hospitals" style="display: none;">
-        <h2 class="text-center mb-4">Hospitals in Sawantwadi</h2>
-
-        <!-- Civil Hospital Sawantwadi -->
-        <div class="col-md-4 mb-4">
+    <div id="sawantwadi-hospitals" style="display: none;">
+        <h2 class="city-title">Hospitals in Sawantwadi</h2>
+        <div class="hospitals-grid">
+            <!-- Civil Hospital Sawantwadi -->
             <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Civil Hospital Sawantwadi</h3>
-                <p>Location: Civil Hospital Road</p>
-                <p>Contact: +91 2363 272063</p>
-                <p>Emergency: 108</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">24/7 Emergency</span>
-                    <span class="badge bg-danger">Blood Bank</span>
+                <div class="hospital-info">
+                    <div class="hospital-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <h3>Civil Hospital Sawantwadi</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Civil Hospital Road, Sawantwadi, Maharashtra</p>
+                    <p><i class="fas fa-phone"></i> +91 2363 272063</p>
+                    <p><i class="fas fa-ambulance"></i> Emergency: 108</p>
+                    <div class="hospital-services">
+                        <span class="badge bg-primary">24/7 Emergency</span>
+                        <span class="badge bg-danger">Blood Bank</span>
+                    </div>
+                </div>
+                <div class="hospital-actions">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Civil+Hospital+Sawantwadi+Maharashtra" target="_blank" class="map-button">
+                        <i class="fas fa-map-marked-alt"></i> View on Map
+                    </a>
                 </div>
             </div>
-        </div>
 
-        <!-- Parkar Hospital -->
-        <div class="col-md-4 mb-4">
+            <!-- Remaining Sawantwadi hospital cards... -->
+            {% set sawantwadi_hospitals = [
+                {
+                    'name': 'Parkar Hospital',
+                    'location': 'Main Road, Sawantwadi, Maharashtra',
+                    'contact': '+91 2363 272888',
+                    'services': [('bg-success', 'OPD'), ('bg-info', 'Lab Services')],
+                    'map_query': 'Parkar+Hospital+Main+Road+Sawantwadi+Maharashtra'
+                },
+                {
+                    'name': 'Siddhivinayak Orthopaedic Hospital',
+                    'location': 'Salaiwada, Sawantwadi, Maharashtra',
+                    'contact': '02363 272 226',
+                    'services': [('bg-primary', 'Orthopedic Care')],
+                    'map_query': 'Siddhivinayak+Orthopaedic+Hospital+Salaiwada+Sawantwadi+Maharashtra'
+                },
+                {
+                    'name': 'Bhakti Hospital and Maternity Home',
+                    'location': 'Railway Station Road, Near Shiroda Naka, Sawantwadi, Maharashtra',
+                    'contact': '02363 275 151',
+                    'services': [('bg-success', 'Maternity'), ('bg-info', 'General Healthcare')],
+                    'map_query': 'Bhakti+Hospital+and+Maternity+Home+Railway+Station+Road+Sawantwadi+Maharashtra'
+                }
+            ] %}
+            {% for hospital in sawantwadi_hospitals %}
             <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Parkar Hospital</h3>
-                <p>Location: Main Road, Sawantwadi</p>
-                <p>Contact: +91 2363 272888</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">OPD</span>
-                    <span class="badge bg-info">Lab Services</span>
+                <div class="hospital-info">
+                    <div class="hospital-icon">
+                        <i class="fas fa-hospital-user"></i>
+                    </div>
+                    <h3>{{ hospital.name }}</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> {{ hospital.location }}</p>
+                    <p><i class="fas fa-phone"></i> {{ hospital.contact }}</p>
+                    <div class="hospital-services">
+                        {% for class, service in hospital.services %}
+                            <span class="badge {{ class }}">{{ service }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="hospital-actions">
+                    <a href="https://www.google.com/maps/search/?api=1&query={{ hospital.map_query }}" target="_blank" class="map-button">
+                        <i class="fas fa-map-marked-alt"></i> View on Map
+                    </a>
                 </div>
             </div>
-        </div>
-
-        <!-- Siddhivinayak Orthopaedic Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Siddhivinayak Orthopaedic Hospital</h3>
-                <p>Location: Salaiwada, Sawantwadi</p>
-                <p>Contact: 02363 272 226</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">Orthopedic Care</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dr. Bhai Jadhav Clinic -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Dr. Bhai Jadhav Clinic</h3>
-                <p>Location: N Residency, Majgaon</p>
-                <p>Contact: 094055 33440</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">General Medical Consultations</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Yashraj Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Yashraj Hospital</h3>
-                <p>Location: Sawantwadi</p>
-                <p>Contact: 02363 271 301</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">General Healthcare Services</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bhakti Hospital and Maternity Home -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Bhakti Hospital and Maternity Home</h3>
-                <p>Location: Railway Station Road, Near Shiroda Naka, Sawantwadi</p>
-                <p>Contact: 02363 275 151</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">Maternity and General Healthcare</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sanjeevani Paediatric Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Sanjeevani Paediatric Hospital</h3>
-                <p>Location: Salaiwada, Sawantwadi</p>
-                <p>Contact: 02363 272 105</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">Pediatric Care</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- OPD of Rani Janakibai Vaidyakiya Sansthas Ayurvedic Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>OPD of Rani Janakibai Vaidyakiya Sansthas Ayurvedic Hospital</h3>
-                <p>Location: Khaskilwada, Sawantwadi</p>
-                <p>Contact: 02363 272 037</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">Ayurvedic Treatments</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tara Prasuti Gruh -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Tara Prasuti Gruh</h3>
-                <p>Location: E-44, Khaskilwada, Charathe</p>
-                <p>Contact: 02363 273 707</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">Maternity Services</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sub District Hospital, Sawantwadi -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Sub District Hospital, Sawantwadi</h3>
-                <p>Location: Mumbai Goa Hwy, Khaskilwada, Sawantwadi</p>
-                <p>Contact: Not Available</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">General Healthcare Services</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Yashraj Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Yashraj Hospital</h3>
-                <p>Location: Main Road, Sawantwadi</p>
-                <p>Contact: 02363 271 301</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">OPD</span>
-                    <span class="badge bg-info">General Medicine</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bhakti Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital-user"></i></div>
-                <h3>Bhakti Hospital and Maternity Home</h3>
-                <p>Location: Near Bus Stand, Sawantwadi</p>
-                <p>Contact: 02363 272 555</p>
-                <div class="hospital-services">
-                    <span class="badge bg-primary">Maternity Care</span>
-                    <span class="badge bg-warning">Pediatrics</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sai Hospital -->
-        <div class="col-md-4 mb-4">
-            <div class="hospital-card">
-                <div class="hospital-icon"><i class="fas fa-hospital"></i></div>
-                <h3>Sai Hospital</h3>
-                <p>Location: College Road, Sawantwadi</p>
-                <p>Contact: 02363 273 444</p>
-                <div class="hospital-services">
-                    <span class="badge bg-success">OPD</span>
-                    <span class="badge bg-info">Surgery</span>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -347,17 +430,16 @@
 {% block extra_js %}
 <script>
     function showHospitals(city) {
-        // Hide all hospital sections first
+        // Hide all hospital sections
         document.querySelectorAll('[id$="-hospitals"]').forEach(el => {
             el.style.display = 'none';
         });
         
-        // Show selected city's hospitals
+        // Show selected city's hospitals with animation
         const selectedCity = document.getElementById(`${city}-hospitals`);
         if (selectedCity) {
-            selectedCity.style.display = 'flex';
-            selectedCity.style.flexWrap = 'wrap';
-            selectedCity.style.justifyContent = 'center';
+            selectedCity.style.display = 'block';
+            selectedCity.style.animation = 'fadeInUp 0.6s ease';
         }
     }
 </script>

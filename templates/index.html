@@ -633,8 +633,8 @@
         <!-- Gastroenteritis Card -->
         <div class="condition-card">
             <div class="condition-icon">
-                <i class="fas fa-stomach"></i>
-    </div>
+                <i class="fas fa-user-md"></i>
+            </div>
             <h3 class="condition-name">Gastroenteritis</h3>
             <p class="condition-description">An intestinal infection marked by diarrhea, cramps, nausea, vomiting, and fever.</p>
             <div class="common-symptoms">
@@ -642,8 +642,8 @@
                 <span>Nausea</span>
                 <span>Stomach pain</span>
                 <span>Vomiting</span>
-    </div>
-</div>
+            </div>
+        </div>
 
         <!-- Hypertension Card -->
         <div class="condition-card">
@@ -787,11 +787,9 @@ window.onload = function() {
         symptomsInput.value = userSymptoms;
     }
     
-    // Store predicted disease when received
-    {% if predicted_disease %}
-        localStorage.setItem('predictedDisease', '{{ predicted_disease }}');
-        predictedDisease = '{{ predicted_disease }}';
-    {% endif %}
+    if (typeof predictedDisease !== 'undefined' && predictedDisease) {
+        localStorage.setItem('predictedDisease', predictedDisease);
+    }
 }
 
 function addSymptom(symptom) {

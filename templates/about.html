@@ -3,35 +3,37 @@
 {% block title %}About MediAI{% endblock %}
 
 {% block content %}
-<div class="about-section">
-    <div class="container">
-        <!-- Platform Overview -->
-        <div class="section-block">
-            <h1 class="section-title">About MediAI</h1>
-            <p class="section-description">
-                MediAI is an advanced medical symptom analysis platform that combines artificial intelligence with comprehensive medical data to provide quick, reliable health insights. Our system is designed to help you understand your symptoms and make informed decisions about your health.
+<div class="about-container">
+    <!-- Hero Section -->
+    <div class="about-hero">
+        <div class="container">
+            <h1 class="hero-title">About MediAI</h1>
+            <p class="hero-description">
+                MediAI is an advanced medical symptom analysis platform that combines artificial intelligence with comprehensive medical data to provide quick, reliable health insights.
             </p>
         </div>
+    </div>
 
+    <div class="container">
         <!-- Platform Features -->
-        <div class="section-block">
-            <h2 class="feature-title">Platform Features</h2>
-            <div class="features-container">
-                <div class="feature-box">
+        <section class="features-section">
+            <h2 class="section-title">Platform Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-brain"></i>
                     </div>
                     <h3>AI-Powered Analysis</h3>
                     <p>Advanced machine learning algorithms analyze your symptoms with high accuracy</p>
                 </div>
-                <div class="feature-box">
+                <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h3>Data Security</h3>
                     <p>Your health data is protected with enterprise-grade security measures</p>
                 </div>
-                <div class="feature-box">
+                <div class="feature-card">
                     <div class="feature-icon">
                         <i class="fas fa-heartbeat"></i>
                     </div>
@@ -39,44 +41,228 @@
                     <p>Get detailed recommendations for medications, diet, and lifestyle changes</p>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- How It Works -->
-        <div class="section-block">
-            <h2 class="feature-title">How It Works</h2>
-            <div class="process-container">
-                <div class="process-step">
+        <section class="process-section">
+            <h2 class="section-title">How It Works</h2>
+            <div class="process-grid">
+                <div class="process-card">
                     <div class="step-number">1</div>
                     <h3>Input Symptoms</h3>
                     <p>Enter your symptoms in our user-friendly interface</p>
                 </div>
-                <div class="process-step">
+                <div class="process-card">
                     <div class="step-number">2</div>
                     <h3>AI Analysis</h3>
                     <p>Our AI system analyzes your symptoms using advanced algorithms</p>
                 </div>
-                <div class="process-step">
+                <div class="process-card">
                     <div class="step-number">3</div>
                     <h3>Get Results</h3>
                     <p>Receive detailed analysis and personalized recommendations</p>
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Medical Disclaimer -->
-        <div class="section-block">
-            <div class="disclaimer-block">
-                <div class="disclaimer-content">
-                    <h3>Medical Disclaimer</h3>
-                    <p>MediAI is designed to provide general information and is not a substitute for professional medical advice. Always consult with a qualified healthcare provider for proper diagnosis and treatment.</p>
-                    <p>The recommendations provided are based on general medical knowledge and should not be considered as definitive medical advice.</p>
+        <section class="disclaimer-section">
+            <div class="disclaimer-card">
+                <div class="disclaimer-icon">
+                    <i class="fas fa-info-circle"></i>
                 </div>
+                <h3>Medical Disclaimer</h3>
+                <p>MediAI is designed to provide general information and is not a substitute for professional medical advice. Always consult with a qualified healthcare provider for proper diagnosis and treatment.</p>
+                <p>The recommendations provided are based on general medical knowledge and should not be considered as definitive medical advice.</p>
             </div>
-        </div>
+        </section>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_css %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+    .about-container {
+        min-height: calc(100vh - 80px);
+    }
+
+    .about-hero {
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        padding: 5rem 0;
+        margin-bottom: 4rem;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: #1976d2;
+        margin-bottom: 1.5rem;
+        animation: fadeInUp 0.6s ease;
+    }
+
+    .hero-description {
+        font-size: 1.25rem;
+        color: #37474f;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.8;
+        animation: fadeInUp 0.8s ease;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        color: #1976d2;
+        text-align: center;
+        margin-bottom: 3rem;
+        font-weight: 600;
+    }
+
+    .features-section,
+    .process-section {
+        padding: 4rem 0;
+    }
+
+    .features-grid,
+    .process-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 1rem;
+    }
+
+    .feature-card,
+    .process-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover,
+    .process-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .feature-icon,
+    .step-number {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        background: #e3f2fd;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .feature-icon i {
+        font-size: 2rem;
+        color: #1976d2;
+    }
+
+    .step-number {
+        background: #1976d2;
+        color: white;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+
+    .feature-card h3,
+    .process-card h3 {
+        font-size: 1.5rem;
+        color: #1976d2;
+        margin-bottom: 1rem;
+    }
+
+    .feature-card p,
+    .process-card p {
+        color: #546e7a;
+        line-height: 1.6;
+        font-size: 1.1rem;
+    }
+
+    .disclaimer-section {
+        padding: 4rem 0;
+    }
+
+    .disclaimer-card {
+        background: #fff3e0;
+        padding: 2.5rem;
+        border-radius: 20px;
+        text-align: center;
+        max-width: 900px;
+        margin: 0 auto;
+        border-left: 5px solid #ff9800;
+    }
+
+    .disclaimer-icon {
+        font-size: 2.5rem;
+        color: #ff9800;
+        margin-bottom: 1.5rem;
+    }
+
+    .disclaimer-card h3 {
+        font-size: 1.8rem;
+        color: #e65100;
+        margin-bottom: 1.5rem;
+    }
+
+    .disclaimer-card p {
+        color: #795548;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .about-hero {
+            padding: 3rem 0;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .features-grid,
+        .process-grid {
+            grid-template-columns: 1fr;
+            padding: 0 1rem;
+        }
+
+        .feature-card,
+        .process-card {
+            padding: 1.5rem;
+        }
+
+        .disclaimer-card {
+            margin: 0 1rem;
+            padding: 1.5rem;
+        }
+    }
+</style>
 {% endblock %}
