@@ -1,13 +1,248 @@
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f5f5f5;
-    color: #333333;
+/* Global Styles */
+:root {
+    --primary: #2196F3;
+    --text-primary: #2D3436;
+    --text-secondary: #636E72;
+    --bg-white: #FFFFFF;
+    --bg-light: #F5F9FF;
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-primary);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation */
 .navbar {
-    background-color: #ffffff !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    padding: 0.5rem 1rem;
+    background: var(--bg-white);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar .container-fluid {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.brand-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--primary), #1565C0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--primary);
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+}
+
+.content-card {
+    background: var(--bg-white);
+    border-radius: 24px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Left Section */
+.left-section {
+    padding-right: 3rem;
+}
+
+.main-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.main-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.analyze-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.analyze-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    color: white;
+}
+
+.analyze-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.feature-item {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--bg-light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    transition: all 0.3s ease;
+}
+
+.feature-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+}
+
+.feature-item:hover .feature-icon {
+    background: var(--primary);
+}
+
+.feature-item:hover .feature-icon svg {
+    color: white;
+}
+
+.feature-item h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.feature-item p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .content-card {
+        padding: 2rem;
+    }
+    
+    .left-section {
+        padding-right: 0;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .main-title {
+        font-size: 2.2rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+    
+    .brand-text {
+        font-size: 1.5rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .nav-links a {
+        font-size: 0.9rem;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .content-card {
+        padding: 1.5rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .main-description {
+        font-size: 1rem;
+    }
+    
+    .analyze-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
 }
 
 .container {

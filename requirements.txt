@@ -2,5 +2,5 @@ numpy
 pandas
 flask
 scikit-learn
-google-generativeai
+openai
 python-dotenv 

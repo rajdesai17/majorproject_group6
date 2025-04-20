@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Circle -->
+    <circle cx="400" cy="300" r="250" fill="#E3F2FD" opacity="0.5"/>
+    
+    <!-- Doctor Figure -->
+    <path d="M350 200 C350 150 450 150 450 200 L450 400 L350 400 Z" fill="#2196F3"/>
+    <circle cx="400" cy="150" r="50" fill="#2196F3"/>
+    
+    <!-- Stethoscope -->
+    <path d="M380 250 Q330 300 330 350 Q330 380 350 400" stroke="#1565C0" stroke-width="8" fill="none"/>
+    <circle cx="350" cy="400" r="15" fill="#1565C0"/>
+    
+    <!-- Medical Cross -->
+    <rect x="500" y="150" width="60" height="200" rx="10" fill="#F44336"/>
+    <rect x="430" y="220" width="200" height="60" rx="10" fill="#F44336"/>
+    
+    <!-- Heart Rate Line -->
+    <path d="M100 350 L150 350 L175 250 L200 450 L225 350 L250 350" 
+          stroke="#4CAF50" stroke-width="4" fill="none"/>
+          
+    <!-- Medical Icons -->
+    <circle cx="150" cy="150" r="20" fill="#9C27B0"/>
+    <circle cx="650" cy="450" r="20" fill="#FF9800"/>
+    <rect x="600" y="150" width="40" height="40" rx="5" fill="#009688"/>
+    <polygon points="150,450 170,500 130,500" fill="#795548"/>
+    
+    <!-- Pulse Dots -->
+    <circle cx="700" cy="200" r="5" fill="#E91E63">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="720" cy="200" r="5" fill="#E91E63">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="740" cy="200" r="5" fill="#E91E63">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" begin="1s" repeatCount="indefinite"/>
+    </circle>
+</svg> 
